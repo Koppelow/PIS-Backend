@@ -20,11 +20,11 @@ app.post("/aibackground", async (req, res) => {
 
     // tokenize and normalize the prompt
     const p = transformPrompt(prompt);
-
+    const size = outputSize || "1024";
     const editParams =
       `background.prompt=${p}` +
       `&background.seed=977565605` +
-      `&outputSize=${outputSize}` +
+      `&outputSize=${size}` +
       `&padding=0.1` +
       `&shadow.mode=ai.soft`;
 
@@ -43,15 +43,6 @@ app.post("/aibackground", async (req, res) => {
         // Stream image directly back to frontend
         res.setHeader("Content-Type", "image/jpeg");
         apiRes.pipe(res);
-
-        // (Optional) save locally for testing
-        const fileStream = fs.createWriteStream("image.jpg");
-        apiRes.pipe(fileStream);
-
-        fileStream.on("finish", () => {
-          fileStream.close();
-          console.log("Download completed.");
-        });
       } else {
         res.status(apiRes.statusCode).json({
           error: `Request failed with status code ${apiRes.statusCode}`,
@@ -66,12 +57,6 @@ app.post("/aibackground", async (req, res) => {
 
     apiReq.end();
   } catch (error) {
-    if (error.response) {
-      return res.status(error.response.status || 500).json({
-        error: error.response.data || "An error occurred with the API.",
-      });
-    }
-
     res.status(500).json({ error: error.message });
   }
 });
