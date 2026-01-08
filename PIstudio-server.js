@@ -11,8 +11,7 @@ const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
-
-const apiKey = "sandbox_sk_pr_default_42675636990551b75e74717b325bf5570b16a800";
+const apiKey = process.env.photoroomkey
 
 // Image editing response
 app.post("/aibackground", async (req, res) => {
