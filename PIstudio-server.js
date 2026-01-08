@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 const apiKey = process.env.photoroomkey
-
+app.options("/aibackground", cors());
 // Image editing response
 app.post("/aibackground", async (req, res) => {
   try {
