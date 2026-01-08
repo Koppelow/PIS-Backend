@@ -1,8 +1,6 @@
 const https = require('https');
 const fs = require('fs');
-
 const apiKey = 'sandbox_sk_pr_default_42675636990551b75e74717b325bf5570b16a800';
-const imageURL = ''
 
 function transformPrompt(prompt) {
     list = prompt.toLowerCase().trim().split(/\s+/);
@@ -16,10 +14,10 @@ function transformPrompt(prompt) {
     return ret_str;
 }
 
-
-function add_AI_background(backgroundPrompt) {
+// for testing purposes
+function add_AI_background(backgroundPrompt, imageURL, outputSize) {
     const prompt = transformPrompt(backgroundPrompt)
-    const editParams = `background.prompt=${prompt}&background.seed=977565605&outputSize=1000x1000&padding=0.1&shadow.mode=ai.soft`;
+    const editParams = `background.prompt=${prompt}&background.seed=977565605&outputSize=${outputSize}&padding=0.1&shadow.mode=ai.soft`;
     const options = {
     hostname: 'image-api.photoroom.com',
     port: 443,
@@ -47,9 +45,7 @@ function add_AI_background(backgroundPrompt) {
     req.end();
 }
 
-prompt = "Light wOod countertop"
-
-
-//add_AI_background()
-
-console.log(transformPrompt(prompt))
+prompt = "snow storm";
+photoURL = 'https://cdn.shopify.com/s/files/1/0647/3459/3122/files/Main_95e88b38-78df-40e6-b2a8-a8388f7d9bf0.jpg?v=1763995283';
+outputSize = "1000x1000"
+add_AI_background(transformPrompt(prompt), photoURL, outputSize);

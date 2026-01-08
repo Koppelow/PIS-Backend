@@ -7,7 +7,6 @@ const apiKey = 'sandbox_sk_pr_default_42675636990551b75e74717b325bf5570b16a800';
 function removeBackground(imagePath, savePath) {
     return new Promise((resolve, reject) => {
         const boundary = '--------------------------' + Date.now().toString(16);
-        
         const postOptions = {
             hostname: 'sdk.photoroom.com',
             path: '/v1/segment',
@@ -17,19 +16,16 @@ function removeBackground(imagePath, savePath) {
                 'X-API-Key': apiKey
             }
         };
-
         const req = https.request(postOptions, (res) => {
             // Check if the response is an image
             const isImage = ['image/jpeg', 'image/png', 'image/gif'].includes(res.headers['content-type']);
-
             if (!isImage) {
                 let errorData = '';
                 res.on('data', (chunk) => errorData += chunk);
                 res.on('end', () => reject(new Error(`Expected an image response, but received: ${errorData}`)));
                 return;
             }
-
-            // Create a write stream to save the image
+            // Saving the image
             const fileStream = fs.createWriteStream(savePath);
             res.pipe(fileStream);
 
@@ -41,11 +37,9 @@ function removeBackground(imagePath, savePath) {
                 reject(new Error(`Failed to save the image: ${error.message}`));
             });
         });
-
         req.on('error', (error) => {
             reject(error);
         });
-
         // Write form data
         req.write(`--${boundary}\r\n`);
         req.write(`Content-Disposition: form-data; name="image_file"; filename="${imagePath.split('/').pop()}"\r\n`);
@@ -57,7 +51,6 @@ function removeBackground(imagePath, savePath) {
             req.write(`--${boundary}--\r\n`);
             req.end();
         });
-        
         uploadStream.pipe(req, { end: false });
     });
 }
