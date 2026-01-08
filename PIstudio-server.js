@@ -8,11 +8,11 @@ const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 const apiKey = process.env.photoroomkey
+
 // Image editing response
 app.post("/aibackground", async (req, res) => {
   try {
     const { prompt, imageURL, outputSize } = req.body;
-
     // tokenize and normalize the prompt
     const p = transformPrompt(prompt);
     const size = outputSize || "1024";
@@ -55,6 +55,12 @@ app.post("/aibackground", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+app.get("/aibackground", (req, res) => {
+  res.send("AI Background endpoint is alive!");
+});
+
 
 // Start the server
 const PORT = 3010;
