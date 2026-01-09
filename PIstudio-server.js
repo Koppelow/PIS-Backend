@@ -1,8 +1,6 @@
 const express = require("express");
 const https = require("https");
 const cors = require("cors");
-const transformPrompt = require("./ai-backgrounds");
-
 const app = express();
 
 // Define specific options for clarity
@@ -22,6 +20,19 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 const apiKey = process.env.photoroomkey;
+
+
+function transformPrompt(prompt) {
+    list = prompt.toLowerCase().trim().split(/\s+/);
+    ret_str = ""
+    for (let i = 0; i < list.length; i++) {
+        ret_str = ret_str + list[i]
+        if (i != list.length - 1) {
+            ret_str = ret_str + "+"
+        }
+    }
+    return ret_str;
+}
 
 app.get("/aibackground", (req, res) => {
   res.send("AI Background endpoint is alive!");
