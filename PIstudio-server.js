@@ -6,7 +6,19 @@ const transformPrompt = require("./ai-backgrounds");
 const app = express();
 
 // Allow CORS for all origins
-app.use(cors());
+const cors = require("cors");
+
+// Define specific options for clarity
+const corsOptions = {
+  origin: "http://localhost:3000", // Better than '*' for security
+  methods: "GET,POST,OPTIONS",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 204 // Some legacy browsers choke on 204
+};
+
+// Apply CORS before any routes
+app.use(cors(corsOptions));
 
 // Parse JSON and URL-encoded bodies
 app.use(express.json({ limit: "50mb" }));
@@ -14,9 +26,6 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 const apiKey = process.env.photoroomkey;
 
-// OPTIONS preflight handled automatically by cors()
-
-// Health check
 app.get("/aibackground", (req, res) => {
   res.send("AI Background endpoint is alive!");
 });
