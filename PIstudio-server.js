@@ -44,7 +44,7 @@ app.post("/aibackground", async (req, res) => {
     const { prompt, imageURL, outputSize } = req.body;
 
     const p = transformPrompt(prompt);
-    const size = outputSize || "1024";
+    const size = outputSize || "1000x1000";
 
     const editParams =
       `background.prompt=${p}` +
