@@ -5,9 +5,6 @@ const transformPrompt = require("./ai-backgrounds");
 
 const app = express();
 
-// Allow CORS for all origins
-const cors = require("cors");
-
 // Define specific options for clarity
 const corsOptions = {
   origin: "http://localhost:3000", // Better than '*' for security
