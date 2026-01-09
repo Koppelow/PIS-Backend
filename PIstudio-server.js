@@ -74,6 +74,6 @@ app.post("/aibackground", async (req, res) => {
 
 // Listen only on IPv4 localhost
 const PORT = 3010;
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server is running on http://127.0.0.1:${PORT}`);
+app.listen(3010, "0.0.0.0", () => {
+    console.log("Server is running on port 3010");
 });
