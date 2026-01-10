@@ -5,7 +5,7 @@ const app = express();
 
 // Define specific options for clarity
 const corsOptions = {
-  origin: "http://localhost:3000", // Better than '*' for security
+  origin: ["http://localhost:3000", "null"], // Better than '*' for security
   methods: "GET,POST,OPTIONS",
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
